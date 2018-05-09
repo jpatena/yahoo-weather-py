@@ -1,8 +1,26 @@
 #!/usr/bin/env python
 import urllib2, urllib, json, pprint
 
-def main():
+def printFiveDayForecast(data):
+	json = data['query']['results']['channel']['item']['forecast']
+	#pprint.pprint(json)
+	i = 0
+	for i in json[:5]: # display first five
+		print i['date']
+		print " " + i['day']
+		print " " + i['high']
+		print " " + i['low']
+		print " " + i['text']
 
+def printTodayForecast(data):
+	#print data['query']['results']['channel']['item']['condition']
+	json = data['query']['results']['channel']['item']['condition']
+
+	print json['date']
+	print json['text']
+	print json['temp']
+
+def main():
 	# Ex. Los Angeles, CA
 	userInput = raw_input("City, ST: ")
 
@@ -12,7 +30,8 @@ def main():
 	result = urllib2.urlopen(yql_url).read()
 	data = json.loads(result)
 
-	# 10 day forecast in json
-	pprint.pprint(data['query']['results']['channel']['item']['forecast'])
+	#pprint.pprint(data['query']['results']['channel'])
+	printFiveDayForecast(data)
+	#printTodayForecast(data)
 
 main()
